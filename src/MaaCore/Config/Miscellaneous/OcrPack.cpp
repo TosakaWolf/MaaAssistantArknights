@@ -98,6 +98,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
 #endif
 
     ResultsVec raw_results;
+    raw_results.reserve(ocr_result.text.size());//TODO 测试是否重新分配，性能差异？
     for (size_t i = 0; i != ocr_result.text.size(); ++i) {
         // the box rect like ↓
         // 0 - 1
@@ -121,7 +122,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         Result result {
             .rect = det_rect,
             .score = ocr_result.rec_scores.at(i),
-            .text = std::move(ocr_result.text.at(i)),
+            .text = std::move(ocr_result.text.at(i)),//TODO 测试
         };
         raw_results.emplace_back(std::move(result));
     }
