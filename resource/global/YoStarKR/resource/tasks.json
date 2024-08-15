@@ -1926,7 +1926,7 @@
             ["가장좋은친구", "最好的朋友"],
             ["심연입구", "深渊入口"],
             ["길조", "吉兆"],
-            ["^비.?$", "雨！"],
+            ["(^비.?$|^비!.*)", "雨！"],
             ["찾은사람이임자", "随到随取"],
             ["정기점검", "定期维护"],
             ["어두컴컴한방", "昏黑之室"],
@@ -2243,7 +2243,10 @@
     "Reclamation2Begin": {
         "text": ["연", "산", "시", "작"]
     },
-    "Reclamation2BeginPlotEnter": {
+    "Reclamation2BeginContinue": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Reclamation2BeginStage": {
         "text": ["캠프", "만남", "광장"]
     },
     "Reclamation2Birdland": {
@@ -2259,14 +2262,11 @@
             [".*거진.*", "우거진숲"]
         ]
     },
-    "Reclamation2DeleteArchiveConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2DeleteArchiveEnter": {
+    "Reclamation2DeleteArchiveEnterConfirm": {
         "text": ["삭제", "하기"]
     },
-    "Reclamation2EnterStage": {
-        "text": ["작전", "개시"]
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["확인"]
     },
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["작업대"]
@@ -2275,7 +2275,41 @@
         "text": ["계", "속", "하", "기"]
     },
     "Reclamation2ExClickProduct": {
+        "ocrReplace": [
+            ["메탈크랩펌프", "메탈 크랩 펌프"],
+            ["목재채집허브", "목재 채집 허브"],
+            ["석재채집허브", "석재 채집 허브"],
+            ["철광석채집허브", "철광석 채집 허브"],
+            ["^비스트트랩", "비스트 트랩"],
+            ["명징석채집허브", "명징석 채집 허브"],
+            ["고급비스트트랩", "고급 비스트 트랩"],
+            ["상자.*수상플랫폼", "상자: 수상 플랫폼"],
+            ["상자.*포그머신", "상자: 포그머신"],
+            ["얼음폭탄", "얼음 폭탄"],
+            ["상자.*오리지늄폭탄", "상자: 오리지늄 폭탄"],
+            ["상자.*슬리핑디퓨저", "상자: 슬리핑 디퓨저"],
+            ["상자.*럼블", "상자: 럼블"],
+            ["상자.*보급기", "상자: 보급기"],
+            ["상자.*실드컨트롤러", "상자: 실드 컨트롤러"],
+            ["긴급수리차", "긴급 수리차"],
+            ["^격려제Ⅱ.?$", "격려제 II"],
+            ["상자.*위장장치", "상자: 위장 장치"],
+            ["상자.*리프레시포션", "상자: 리프레시 포션"],
+            ["상자.*코일", "상자: 코일"],
+            ["상자.*지뢰세트", "상자: 지뢰세트"],
+            ["상자.*가스통", "상자: 가스통"],
+            ["상자.*구급키트", "상자: 구급키트"],
+            ["상자.*크레인", "상자: 크레인"],
+            ["^격려제Ⅲ.?$", "격려제 III"],
+            ["언밸런스디퓨저", "언밸런스 디퓨저"]
+        ],
         "text": ["형광봉"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["삭제", "하기"]
     },
     "Reclamation2ExManufactureConfirm": {
         "text": ["제작", "하기"]
@@ -2302,34 +2336,55 @@
     "Reclamation2ExReadArchiveSelectDayConfirm": {
         "text": ["확인"]
     },
-    "Reclamation2Fight": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2FightConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2LeaveStageConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2QuitToMainPage": {
-        "text": ["뒤로"]
-    },
-    "Reclamation2SkipDays2SkipTime": {
+    "Reclamation2ExSkipDays2ExSkipTime": {
         "text": ["시간", "보내기"]
     },
-    "Reclamation2SkipDays2SkipTimeConfig": {
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
         "text": ["확인"]
     },
-    "Reclamation2SkipDaysAward2": {
+    "Reclamation2ExSkipDaysAward2": {
         "text": ["탭하여", "계", "속"]
     },
-    "Reclamation2SkipDaysAwardEndTask": {
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["확인"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["확인"]
+    },
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
     },
-    "Reclamation2SkipDaysBeginNewDay": {
+    "Reclamation2SkipDayBeginNewDay": {
         "text": ["시", "작", "하", "기"]
     },
-    "Reclamation2SkipDaysBeginNewDayEndTask": {
-        "text": ["시", "작", "하", "기"]
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["확인"]
     }
 }
