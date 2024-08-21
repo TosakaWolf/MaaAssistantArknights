@@ -327,9 +327,8 @@
             ["c", "C"],
             [":", ""],
             ["'", ""],
-            ["-2O", "-20"],
-            ["-1O", "-10"],
-            ["O-", "0-"]
+            ["(H\\d+)O(?=-)", "$010"],
+            ["(-\\d+)O", "$010"]
         ],
         "roi": [845, 72, 170, 50]
     },
@@ -1887,6 +1886,7 @@
             ["^(?:[<4~]|《|。)+", ""],
             ["^c(?!ast)", ""],
             ["^\\^一", ""],
+            ["^_(?=.)", ""],
             ["^令.+", "令"],
             [".*弦惊.*", "“弦惊”"],
             [".*亚梅塔", "菲亚梅塔"],
@@ -1904,6 +1904,7 @@
             ["[Uu]-[O0o]f{1,2}icial", "U-Official"],
             [".*威龙陈", "假日威龙陈"],
             ["^夕.*", "夕"],
+            ["^H$", "夕"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
             ["^山.+", "山"],
@@ -1934,7 +1935,10 @@
             [".*夹子.*", "“夹子”"],
             ["应泡普卡", "泡普卡"],
             ["特米米.+", "特米米"],
-            ["崖心.+", "崖心"]
+            ["崖心.+", "崖心"],
+            [".*芙利特$", "伊芙利特"],
+            ["^提非$", "提丰"],
+            ["^华琳$", "华法琳"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -2837,7 +2841,6 @@
         "onErrorNext": ["Stop"]
     },
     "OrundumActivitiesChoose": {
-        "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": ["请选择", "选择"],
         "roi": [1023, 504, 198, 81],
@@ -3153,7 +3156,8 @@
     "Mall": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["采购", "购中", "中心"],
+        "ocrReplace": [["米购", "采购"]],
+        "text": ["采购", "购中", "中心", "到期"],
         "roi": [740, 440, 200, 100],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
         "postDelay": 500
@@ -3322,6 +3326,8 @@
     "RecruitConfirm": {
         "action": "ClickSelf",
         "roi": [860, 540, 230, 80],
+        "postDelay": 500,
+        "postDelay_Doc": "招募结束后有一瞬间还是原来的界面，有可能会点到放弃招募然后卡死",
         "next": ["RecruitConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"]
     },
     "InfrastBegin": {
@@ -3837,16 +3843,21 @@
         "postDelay": 1500
     },
     "InfrastOperSelected": {
+        "Doc": "参考 InfrastOperImageAnalyzer",
         "template": "empty.png",
-        "templThreshold": 800,
-        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
-        "maskRange": [
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
+        "specialParams": [800],
+        "specificRect_Doc": "selected_move",
+        "specificRect": [-18, -220, 10, 160],
+        "rectMove_Doc": "oper_move",
+        "rectMove": [18, 0, 10, 160],
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
             [
                 [95, 0, 0],
                 [105, 255, 255]
             ]
-        ],
-        "rectMove": [-18, -220, 10, 160]
+        ]
     },
     "InfrastOperOnShift": {
         "template": "OnShift.png",
@@ -4624,20 +4635,16 @@
         "next": ["#self", "Stop"]
     },
     "BattleSkillReadyOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick-SquareMap.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick-MiddleMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-MiddleMap.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-SquareMap.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -4681,11 +4688,11 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
         "specialParams": [300],
-        "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [-68, 124, 114, 4],
-        "maskRange_Doc": "HSV的范围",
-        "maskRange": [
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
             [
                 [0, 100, 0],
                 [20, 255, 150]
@@ -4778,7 +4785,7 @@
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialParams": [100],
         "specialParams_Doc": "基线长度阈值（不小于100）",
-        "maskRange": [45, 255],
+        "colorScales": [[45, 255]],
         "rectMove": [181, 40, 25, 0],
         "rectMove_Doc": "作为hsv阈值使用"
     },
@@ -4821,7 +4828,7 @@
         "templThreshold": 3,
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [62, 90, 43, 22],
-        "maskRange": [110, 255]
+        "colorScales": [[110, 255]]
     },
     "StageDrops-StageCF-ItemMatch": {
         "template": "empty.png",
@@ -5692,7 +5699,6 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [525, 549, 16, 25],
-        "postDelay": 0,
         "next": ["RoguelikeRecruitLazyClick2"]
     },
     "RoguelikeRecruitLazyClick2": {
@@ -7560,7 +7566,6 @@
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Mizuki@Roguelike@Stage",
-        "template": "Mizuki@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -8038,7 +8043,6 @@
     },
     "Sami@Roguelike@FoldartalGain": {
         "doc": "本任务注册插件RoguelikeFoldartalGain",
-        "template": "Sami@Roguelike@FoldartalGain.png",
         "action": "ClickRect",
         "specificRect": [611, 496, 60, 51],
         "postDelay": 500,
@@ -8284,10 +8288,8 @@
         "text": ["科考记录"]
     },
     "Sami@Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
-        "text": [],
-        "roi": [615, 0, 80, 45]
+        "text": []
     },
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
@@ -8359,7 +8361,6 @@
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
         "baseTask": "Sami@Roguelike@Stage",
-        "template": "Sami@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -9440,8 +9441,6 @@
             "————————————————————————————————————————————————————————————————",
             "RoguelikeRoutingTaskPlugin用参数",
             "————————————————————————————————————————————————————————————————",
-            "(roi.x, roi.y): 生成地图时向左滑动起点",
-            "(roi.width, roi.height): 生成地图时向左滑动终点",
             "specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
             "specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
             "specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
@@ -9453,7 +9452,6 @@
             "specialParams[8]: 节点间连线方向判定的阈值"
         ],
         "template": "empty.png",
-        "roi": [1000, 360, 570, 360],
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
     },
     "Sarkaz@Roguelike@RoutingContinue": {
@@ -9509,11 +9507,18 @@
         "postDelay": 300,
         "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
     },
+    "Sarkaz@Roguelike@RoutingSwipeRight": {
+        "doc": "生成地图时向左滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [570, 360, 0, 0],
+        "specialParams": [200, 1]
+    },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
     },
     "Sarkaz@Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
         "Doc": "特殊值识别，构想数量",
         "text": [],
         "roi": [848, 686, 46, 26]
@@ -9549,7 +9554,7 @@
         "Doc": "思维边界",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [90, 2, 121],
                 [134, 142, 230]
@@ -9560,7 +9565,7 @@
     "Sarkaz@Roguelike@StageBoskyPassageEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [137, 150, 40],
                 [138, 180, 180]
@@ -9606,7 +9611,7 @@
     },
     "Sarkaz@Roguelike@StageCombatDps": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [127, 80, 50],
                 [136, 200, 180]
@@ -9622,7 +9627,7 @@
     },
     "Sarkaz@Roguelike@StageCombatDpsEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [130, 130, 40],
                 [131, 180, 180]
@@ -9638,7 +9643,6 @@
     "Sarkaz@Roguelike@StageDreadfulFoe": {},
     "Sarkaz@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "template": "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -9668,7 +9672,7 @@
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [15, 1, 93],
                 [93, 129, 141]
@@ -9728,7 +9732,6 @@
         "next": ["Sarkaz@Roguelike@StageFilterTruthChooseCollection", "Sarkaz@Roguelike@StageFilterTruthConfirm"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
-        "action": "DoNothing",
         "templThreshold": 0.95,
         "roi": [279, 374, 155, 170],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
@@ -9753,7 +9756,7 @@
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [23, 150, 40],
                 [25, 230, 150]
@@ -9814,7 +9817,7 @@
         "Doc": "命运所指",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [18, 1, 94],
                 [93, 173, 109]
@@ -9826,7 +9829,8 @@
         "action": "ClickSelf",
         "method": "RGBCount",
         "postDelay": 500,
-        "maskRange": [0, 200],
+        "colorScales": [[0, 200]],
+        "colorWithClose": false,
         "roi": [790, 130, 60, 144],
         "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"]
     },
@@ -9873,7 +9877,7 @@
     },
     "Sarkaz@Roguelike@StageSafeHouseEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [106, 100, 50],
                 [107, 160, 180]
@@ -9912,7 +9916,7 @@
     },
     "Sarkaz@Roguelike@StageTraderEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [71, 150, 40],
                 [73, 180, 150]
@@ -9943,7 +9947,7 @@
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [18, 130, 155],
                 [20, 180, 180]
@@ -10279,7 +10283,8 @@
     },
     "Reclamation2ExAssemblyStationBack": {
         "baseTask": "Reclamation2ExAssemblyStationOcr",
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "Stop"]
     },
     "Reclamation2ExAssemblyStationOcr": {
         "Doc": "确认进入组装台",

@@ -1970,7 +1970,7 @@ namespace MaaWpfGui.ViewModels.UI
                             continue;
                         }
 
-                        var localizedName = DataHelper.GetLocalizedCharacterName(name, _language);
+                        var localizedName = DataHelper.GetLocalizedCharacterName(name, OperNameLocalization);
                         if (!string.IsNullOrEmpty(localizedName) && !(_clientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
                         {
                             roguelikeCoreCharList.Add(localizedName);
@@ -3555,6 +3555,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public List<CombinedData> ProxyTypeList { get; } =
+            [
+                new() { Display = "HTTP Proxy", Value = "http" },
+                new() { Display = "Socks5 Proxy", Value = "socks5" },
+            ];
+
+        private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
+
+        public string ProxyType
+        {
+            get => _proxyType;
+            set
+            {
+                SetAndNotify(ref _proxyType, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
+            }
+        }
+
         private bool _isCheckingForUpdates;
 
         /// <summary>
@@ -4360,13 +4378,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
-                return null;
+                return string.Empty;
             }
 
             if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return null;
+                return string.Empty;
             }
 
             var allLines = File.ReadAllLines(_bluestacksConfig);
@@ -4552,6 +4570,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the language list.
         /// </summary>
         public List<CombinedData> LanguageList { get; set; }
+
+        /// <summary>
+        /// Gets the list of operator name language settings
+        /// </summary>
+        public List<CombinedData> OperNameLanguageModeList { get; } =
+            [
+                new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
+                new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
+            ];
 
         /// <summary>
         /// Gets the list of dark mode.
@@ -4827,7 +4854,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _language;
             set
             {
-                if (!SetAndNotify(ref _language, value))
+                if (value == _language)
                 {
                     return;
                 }
@@ -4867,6 +4894,8 @@ namespace MaaWpfGui.ViewModels.UI
                     Bootstrapper.ShutdownAndRestartWithoutArgs();
                 }
 
+                SetAndNotify(ref _language, value);
+
                 return;
 
                 string FormatText(string text, string key)
@@ -4883,6 +4912,79 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 var language = (string)Application.Current.Resources["Language"];
                 return language == "Language" ? language : language + " / Language";
+            }
+        }
+
+        private static readonly Dictionary<string, string> _clientLanguageMapper = new()
+        {
+            { string.Empty, "zh-cn" },
+            { "Official", "zh-cn" },
+            { "Bilibili", "zh-cn" },
+            { "YoStarEN", "en-us" },
+            { "YoStarJP", "ja-jp" },
+            { "YoStarKR", "ko-kr" },
+            { "txwy", "zh-tw" },
+        };
+
+        private string _operNameLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+
+        public string OperNameLanguage
+        {
+            get => _operNameLanguage;
+
+            set
+            {
+                if (value == _operNameLanguage)
+                {
+                    return;
+                }
+
+                switch (value)
+                {
+                    case "OperNameLanguageClient":
+                        ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, value);
+                        break;
+                    case "OperNameLanguageMAA":
+                    default:
+                        ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+                        break;
+                }
+
+                var mainWindow = Application.Current.MainWindow;
+
+                if (mainWindow != null)
+                {
+                    mainWindow.Show();
+                    mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                    mainWindow.Activate();
+                }
+
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("LanguageChangedTip"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question,
+                    ok: LocalizationHelper.GetString("Ok"),
+                    cancel: LocalizationHelper.GetString("ManualRestart"));
+                if (result == MessageBoxResult.OK)
+                {
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
+                }
+
+                SetAndNotify(ref _operNameLanguage, value);
+            }
+        }
+
+        public string OperNameLocalization
+        {
+            get
+            {
+                if (_operNameLanguage == "OperNameLanguageClient")
+                {
+                    return _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)];
+                }
+
+                return _language;
             }
         }
 

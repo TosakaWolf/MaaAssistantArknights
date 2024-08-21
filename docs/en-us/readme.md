@@ -71,8 +71,7 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
-- [Stable/Beta](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
-- [Nightly](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
 
