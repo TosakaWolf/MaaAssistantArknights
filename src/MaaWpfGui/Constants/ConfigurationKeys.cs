@@ -135,8 +135,9 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
         public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
-        public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
-        public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
+        public const string ReclamationTheme = "Reclamation.Theme";
+        public const string ReclamationMode = "Reclamation.Mode";
+        public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
@@ -237,6 +238,10 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
         public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
         public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
+        public const string ExternalNotificationQmsgServer = "ExternalNotification.Qmsg.Server";
+        public const string ExternalNotificationQmsgKey = "ExternalNotification.Qmsg.Key";
+        public const string ExternalNotificationQmsgUser = "ExternalNotification.Qmsg.User";
+        public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
 
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";

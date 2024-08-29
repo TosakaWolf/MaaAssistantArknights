@@ -462,10 +462,10 @@
     <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTask.h">
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
+    </ClCompile>
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTask.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
@@ -542,6 +542,9 @@
     </ClInclude>
     <ClInclude Include="Task\Interface\ReclamationTask.h">
       <Filter>Source\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Reclamation\ReclamationConfig.h">
+      <Filter>Source\Task\Reclamation</Filter>
     </ClInclude>
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h">
       <Filter>Source\Task\Reclamation</Filter>
@@ -1063,6 +1066,9 @@
     </ClCompile>
     <ClCompile Include="Task\Interface\ReclamationTask.cpp">
       <Filter>Source\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp">
+      <Filter>Source\Task\Reclamation</Filter>
     </ClCompile>
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp">
       <Filter>Source\Task\Reclamation</Filter>
